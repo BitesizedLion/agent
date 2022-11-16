@@ -49,8 +49,8 @@ fi
 
 # Check if system has crontab and wget
 echo "Checking for crontab and wget..."
-command -v crontab >/dev/null 2>&1 || { echo "ERROR: Crontab is required to run this agent." >&2; exit 1; }
-command -v wget >/dev/null 2>&1 || { echo "ERROR: wget is required to run this agent." >&2; exit 1; }
+#command -v crontab >/dev/null 2>&1 || { echo "ERROR: Crontab is required to run this agent." >&2; exit 1; }
+#command -v wget >/dev/null 2>&1 || { echo "ERROR: wget is required to run this agent." >&2; exit 1; }
 echo "... done."
 
 # Remove old agent (if exists)
@@ -153,8 +153,8 @@ echo "... done."
 
 # Removing old cronjob (if exists)
 echo "Removing any old hetrixtools cronjob, if exists..."
-crontab -u root -l | grep -v 'hetrixtools_agent.sh'  | crontab -u root - >/dev/null 2>&1
-crontab -u hetrixtools -l | grep -v 'hetrixtools_agent.sh'  | crontab -u hetrixtools - >/dev/null 2>&1
+/usr/bin/crontab -u root -l | grep -v 'hetrixtools_agent.sh'  | /usr/bin/crontab -u root - >/dev/null 2>&1
+/usr/bin/crontab -u hetrixtools -l | grep -v 'hetrixtools_agent.sh'  | /usr/bin/crontab -u hetrixtools - >/dev/null 2>&1
 echo "... done."
 
 # Setup the new cronjob to run the agent either as 'root' or as 'hetrixtools' user, depending on client's installation choice.
@@ -162,10 +162,10 @@ echo "... done."
 if [ "$2" -eq "1" ]
 then
 	echo "Setting up the new cronjob as 'root' user..."
-	crontab -u root -l 2>/dev/null | { cat; echo "* * * * * bash /etc/hetrixtools/hetrixtools_agent.sh >> /etc/hetrixtools/hetrixtools_cron.log 2>&1"; } | crontab -u root - >/dev/null 2>&1
+	/usr/bin/crontab -u root -l 2>/dev/null | { cat; echo "* * * * * bash /etc/hetrixtools/hetrixtools_agent.sh >> /etc/hetrixtools/hetrixtools_cron.log 2>&1"; } | crontab -u root - >/dev/null 2>&1
 else
 	echo "Setting up the new cronjob as 'hetrixtools' user..."
-	crontab -u hetrixtools -l 2>/dev/null | { cat; echo "* * * * * bash /etc/hetrixtools/hetrixtools_agent.sh >> /etc/hetrixtools/hetrixtools_cron.log 2>&1"; } | crontab -u hetrixtools - >/dev/null 2>&1
+	/usr/bin/crontab -u hetrixtools -l 2>/dev/null | { cat; echo "* * * * * bash /etc/hetrixtools/hetrixtools_agent.sh >> /etc/hetrixtools/hetrixtools_cron.log 2>&1"; } | crontab -u hetrixtools - >/dev/null 2>&1
 fi
 echo "... done."
 
