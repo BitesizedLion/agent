@@ -126,7 +126,7 @@ echo "... done."
 
 # Killing any running hetrixtools agents
 echo "Making sure no hetrixtools agent scripts are currently running..."
-ps aux | grep -ie hetrixtools_agent.sh | awk '{print $2}' | xargs kill -9
+/usr/bin/ps aux | grep -ie hetrixtools_agent.sh | awk '{print $2}' | xargs /usr/bin/kill -9
 echo "... done."
 
 # Checking if hetrixtools user exists
